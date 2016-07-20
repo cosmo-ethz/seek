@@ -1,0 +1,5 @@
+# Calibration logfile antenna control system.
+# HH:MM:00,target-azimut,target-elevation,CALIBRATION: target.
+# Targetname should NOT contain spaces, otherwise they get lost...
+13:00:00,49.268349,62.788837,CALIBRATION: CasA
+17:00:00,49.268349,62.788837,CALIBRATION: CasA
