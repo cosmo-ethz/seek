@@ -8,6 +8,10 @@ SEEK: Signal Extraction and Emission Kartographer
 .. image:: https://coveralls.io/repos/cosmo-ethz/seek/badge.svg
   		:target: https://coveralls.io/r/cosmo-ethz/seek
 
+.. image:: https://readthedocs.org/projects/seek/badge/?version=latest
+		:target: http://seek.readthedocs.io/en/latest/?badge=latest
+		:alt: Documentation Status
+		
 .. image:: http://img.shields.io/badge/arXiv-1212.1721-orange.svg?style=flat
         :target: http://arxiv.org/abs/1212.1721
 
