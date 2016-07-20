@@ -37,7 +37,7 @@ The full documentation can be generated with Sphinx"""
 
 history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
-requires = ["ivy", "hope", "numpy", "scipy", "healpy", "h5py", "pyephem", "astropy"]
+requires = ["ivy", "hope", "numpy", "scipy", "h5py", "pyephem", "astropy"]
 tests_require=['pytest>=2.3', "mock"]
 
 PACKAGE_PATH = os.path.abspath(os.path.join(__file__, os.pardir))

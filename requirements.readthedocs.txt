@@ -1,0 +1,10 @@
+numpy
+scipy
+Cython
+h5py
+mock
+hope
+pyephem
+six
+astropy
+git+https://github.com/cosmo-ethz/ivy.git
