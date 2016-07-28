@@ -12,8 +12,8 @@ SEEK: Signal Extraction and Emission Kartographer
 		:target: http://seek.readthedocs.io/en/latest/?badge=latest
 		:alt: Documentation Status
 		
-.. image:: http://img.shields.io/badge/arXiv-1212.1721-orange.svg?style=flat
-        :target: http://arxiv.org/abs/1212.1721
+.. image:: http://img.shields.io/badge/arXiv-1607.07443-orange.svg?style=flat
+        :target: http://arxiv.org/abs/1607.07443
 
 **SEEK** is a flexible and easy-to-extend data processing pipeline for single dish radio telescopes. It takes the observed (or simulated) TOD in the time-frequency domain as an input and processes it into *healpix*maps while applying calibration and automatically masking RFI. The data processing is parallelized using *ivy's* parallelization scheme.
 
