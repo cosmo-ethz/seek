@@ -31,11 +31,14 @@ class TestWriteMapsPlugin(object):
     def setup(self):
         self.maps = np.zeros((1,2))
         self.redshifts = np.array([0.1, 0.2])
+        self.frequencies = np.array([0.1, 0.2])
+        
         self.params = Struct()
         ctx = Struct(params = self.params,
                      maps = self.maps,
                      redshifts = self.redshifts,
-                     counts = np.ones_like(self.maps))
+                     counts = np.ones_like(self.maps),
+                     frequencies = self.frequencies)
         self.plugin = write_maps.Plugin(ctx) 
         
     def testWriteMaps(self):
