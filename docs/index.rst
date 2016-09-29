@@ -13,6 +13,7 @@ Contents:
 
    installation
    usage
+   mitigation
    seek
    contributing
    authors
