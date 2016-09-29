@@ -19,7 +19,7 @@ It can easily be used without of the SEEK data processing pipeline::
 The TOD has to be a Numpy masked array when passed to the `sum_threshold` algorithm. The other parameters are optional an give you the possiblity to tune the mitigation.
 Crucial is the a good starting value of `chi_1`, best explored by trial and error. The keyword-arguments control the smoothing and dilation process. Further options can be found in the documentation of the module.
 
-The resulting boolean mask looks something like that::
+The resulting boolean mask looks something like that
 
 .. image:: https://raw.githubusercontent.com/cosmo-ethz/seek/master/docs/masked_realdata.jpg
    :alt: SumThresholds RFI mitigation.
