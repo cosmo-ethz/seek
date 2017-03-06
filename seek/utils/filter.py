@@ -39,10 +39,10 @@ def gaussian_filter(V, mask, M=40, N=20, sigma_m=0.5, sigma_n=0.5):
         return np.exp(-n**2/(2*sigma_n**2) - m**2/(2*sigma_m**2))
     
     Vp = np.zeros((V.shape[0]+N, V.shape[1]+M))
-    Vp[N/2:-N/2,M/2:-M/2] = V[:]
+    Vp[N//2:-N//2,M//2:-M//2] = V[:]
 
     Wfp = np.zeros((V.shape[0]+N, V.shape[1]+M))
-    Wfp[N/2:-N/2,M/2:-M/2] = ~mask[:]
+    Wfp[N//2:-N//2,M//2:-M//2] = ~mask[:]
     Vh = np.zeros((V.shape[0]+N, V.shape[1]+M))
     Vh2 = np.zeros((V.shape[0]+N, V.shape[1]+M))
     
@@ -52,7 +52,7 @@ def gaussian_filter(V, mask, M=40, N=20, sigma_m=0.5, sigma_n=0.5):
     kernel_1 = wd(0, m, sigma_n=sigma_n, sigma_m=sigma_m).T
     
     Vh = _gaussian_filter(Vp, V.shape[0], V.shape[1], Wfp, mask, Vh, Vh2, kernel_0, kernel_1, M, N)
-    Vh = Vh[N/2:-N/2,M/2:-M/2]
+    Vh = Vh[N//2:-N//2,M//2:-M//2]
     Vh[mask] = V[mask]
     return Vh
 
