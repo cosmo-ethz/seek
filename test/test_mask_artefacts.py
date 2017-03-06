@@ -68,6 +68,6 @@ class TestMaskArtefactsPlugin(object):
             plugin = mask_artefacts.Plugin(ctx)
             plugin.mask_artefacts()
         
-        assert np.all(ctx.tod_vx.mask[:, :1000/24*9] == False)
-        assert np.all(ctx.tod_vx.mask[:, 1000/24*9:1000/24*10] == True)
-        assert np.all(ctx.tod_vx.mask[:, 1000/24*10+1:] == False)
+        assert np.all(ctx.tod_vx.mask[:, :int(1000/24*9)] == False)
+        assert np.all(ctx.tod_vx.mask[:, int(1000/24*9):int(1000/24*10)] == True)
+        assert np.all(ctx.tod_vx.mask[:, int(1000/24*10+1):] == False)
