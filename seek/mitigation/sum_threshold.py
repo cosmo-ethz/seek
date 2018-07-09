@@ -186,7 +186,7 @@ def get_rfi_mask(tod, mask=None, chi_1=35000, eta_i=[0.5, 0.55, 0.62, 0.75, 1], 
     if not suppress_dilation:
         if di_kwargs is None: di_kwargs = get_di_kwrags()
 
-        dilated_mask = binary_mask_dilation(dilated_mask - mask, **di_kwargs)
+        dilated_mask = binary_mask_dilation(dilated_mask ^ mask, **di_kwargs)
     
         if plotting: sum_threshold_utils.plot_dilation(st_mask, mask, dilated_mask)
         
