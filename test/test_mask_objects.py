@@ -48,7 +48,7 @@ class TestMaskObjectsPlugin(object):
                      tod_vx = tod,
                      tod_vy = tod,
                      coords = Coords(times[:,0], times[:,1], times[:,1]*0.0, times[:,1]*0.0, times[:,1]*0.0),
-                     strategy_start=datetime(2015, 01, 01, 00, 00, 00))
+                     strategy_start=datetime(2015, 1, 1, 0, 0, 0))
         
         plugin = mask_objects.Plugin(ctx)
         plugin.mask_objects()
