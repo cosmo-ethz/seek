@@ -22,7 +22,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import numpy as np
 
 def get_empty_mask(shape):
-    mask = np.full(shape, False, dtype=bool)
+    mask = np.full(shape, False, dtype=np.bool_)
     return mask
     
 def smooth(tod, factor, axis = 1):
