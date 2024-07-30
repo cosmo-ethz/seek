@@ -8,3 +8,5 @@ matplotlib==3.9.1
 
 # Requirements to successfully run the Makefile options
 flake8
+pytest
+sphinx

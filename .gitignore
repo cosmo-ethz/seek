@@ -9,6 +9,7 @@
 dist
 build
 eggs
+.eggs
 parts
 bin
 var
@@ -28,6 +29,7 @@ pip-log.txt
 nosetests.xml
 *junit-*
 htmlcov
+.pytest_cache
 
 # Translations
 *.mo
@@ -47,3 +49,4 @@ docs/_build
 # Virtual environments
 .virt
 virt
+
