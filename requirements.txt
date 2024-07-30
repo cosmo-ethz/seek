@@ -3,7 +3,6 @@ scipy
 Cython
 h5py
 mock
-hope
 pyephem
 six
 healpy

@@ -22,8 +22,6 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import numpy as np
 from scipy import ndimage
 
-import hope
-
 from seek.mitigation import sum_threshold_utils
 from seek.utils.tod_utils import get_empty_mask
 from seek.utils import filter
@@ -41,7 +39,6 @@ SIGMA_N = 15
 STRUCT_SIZE = 3
 
 
-@hope.jit
 def _sumthreshold(data, mask, i, chi, ds0, ds1):
     """
     The operation of summing and thresholding.

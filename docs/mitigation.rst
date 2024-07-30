@@ -3,7 +3,7 @@ RFI mitigation
 ================
 
 SEEK's RFI mitigation follows the `Offringa et al. <http://arxiv.org/pdf/1002.1957v1.pdf>`_ `SumThreshold` algorithm. 
-It's implemented in pure Python and JIT-compiled for speed with the `HOPE <https://github.com/cosmo-ethz/hope>`_ package.
+It's implemented in pure Python. It is no longer JIT-compiled with the `HOPE <https://github.com/cosmo-ethz/hope>`_ package as `HOPE` is now deprecated.
 
 It can easily be used without of the SEEK data processing pipeline::
 
