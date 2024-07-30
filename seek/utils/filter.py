@@ -57,8 +57,8 @@ def gaussian_filter(V, mask, M=40, N=20, sigma_m=0.5, sigma_n=0.5):
 
 def _gaussian_filter(Vp, vs0, vs1, Wfp, mask, Vh, Vh2, kernel_0, kernel_1, M, N):
 
-    n2 = N/2
-    m2 = M/2
+    n2 = N//2
+    m2 = M//2
     for i in range((N//2), vs0+(N//2)):
         for j in range((M//2), vs1+(M//2)):
             if mask[i-n2, j-m2]:
