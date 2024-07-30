@@ -24,7 +24,7 @@ import numpy as np
 from ivy.plugin.base_plugin import BasePlugin
 from seek.mitigation import sum_threshold
 import healpy as hp
-from scipy.ndimage.filters import gaussian_filter as gaussian
+from scipy.ndimage import gaussian_filter as gaussian
 
 
 def mask_galaxy(nside, mask_original, mask_gal, ra, dec):
