@@ -7,6 +7,7 @@ import numpy as np
 import seek
 from seek import DATE_FORMAT, DATETIME_FORMAT
 
+
 def parse_datetime(s, fmt=DATETIME_FORMAT):
     """
     Parse datetime object with specific format.
@@ -18,6 +19,7 @@ def parse_datetime(s, fmt=DATETIME_FORMAT):
     """
     return datetime.strptime(s, fmt)
 
+
 def format_date(date, fmt=DATE_FORMAT):
     """
     Format datetime object into specific format string.
@@ -28,6 +30,7 @@ def format_date(date, fmt=DATE_FORMAT):
     :return: formatted string
     """
     return date.strftime(fmt)
+
 
 def load_file(path, **kwargs):
     """

@@ -5,3 +5,6 @@ scipy==1.14.0
 # Requirements to run the example_rfi.py file
 opencv-python==4.10.0.84
 matplotlib==3.9.1
+
+# Requirements to successfully run the Makefile options
+flake8

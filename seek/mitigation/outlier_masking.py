@@ -2,23 +2,24 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # SEEK is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with SEEK.  If not, see <http://www.gnu.org/licenses/>.
 
 
-'''
+"""
 Created on Jan 22, 2015
 
 author: seehars
-'''
+"""
 from __future__ import print_function, division, absolute_import, unicode_literals
 from numpy import std, mean, bitwise_or
+
 
 def rm_rfi(ctx):
     """
@@ -34,6 +35,7 @@ def rm_rfi(ctx):
     rfi_mask_vy = getMask(ctx.tod_vy, ctx.params.multiplicator)
 
     return rfi_mask_vx, rfi_mask_vy
+
 
 def getMask(tod, multiplicator):
     """

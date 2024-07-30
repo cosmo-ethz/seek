@@ -2,21 +2,21 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # SEEK is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with SEEK.  If not, see <http://www.gnu.org/licenses/>.
 
 
-'''
+"""
 Created on Feb 6, 2015
 
 author: jakeret
-'''
+"""
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 import numpy as np
@@ -32,9 +32,10 @@ try:
     import ephem as ephem
 except ImportError:
     ephem = None
-    
+
 
 EPHEM_DATE_FORMAT = "%Y/%m/%d %H:%M:%S"
+
 
 def get_object_separation(obs, start_date, time, ra, dec):
     """
@@ -50,7 +51,7 @@ def get_object_separation(obs, start_date, time, ra, dec):
     """
     sun_separation = []
     moon_separation = []
-    for (t, ra, dec) in zip(time, ra, dec):
+    for t, ra, dec in zip(time, ra, dec):
         date = start_date + timedelta(hours=t)
         obs.date = datetime.strftime(date, EPHEM_DATE_FORMAT)
         sun = ephem.Sun()
@@ -59,8 +60,9 @@ def get_object_separation(obs, start_date, time, ra, dec):
         moon.compute(obs)
         sun_separation.append(ephem.separation(sun, (ra, dec)))
         moon_separation.append(ephem.separation(moon, (ra, dec)))
-        
-    return np.array(sun_separation),  np.array(moon_separation)
+
+    return np.array(sun_separation), np.array(moon_separation)
+
 
 class Plugin(BasePlugin):
     """
@@ -69,51 +71,57 @@ class Plugin(BasePlugin):
 
     def __call__(self):
         self.mask_objects()
-        
-        
+
     def mask_objects(self):
         obs = sphere.get_observer(self.ctx.params)
 
-        # loop over the files to mask according to position of sun/moon 
+        # loop over the files to mask according to position of sun/moon
         # at time of the beginning of each file
-        start_date = datetime(self.ctx.strategy_start.year, self.ctx.strategy_start.month, self.ctx.strategy_start.day)
-        
-        sun_separation, moon_separation = get_object_separation(obs, 
-                                                                start_date, 
-                                                                self.ctx.coords.t, 
-                                                                self.ctx.coords.ra, 
-                                                                self.ctx.coords.dec)
-        
+        start_date = datetime(
+            self.ctx.strategy_start.year,
+            self.ctx.strategy_start.month,
+            self.ctx.strategy_start.day,
+        )
+
+        sun_separation, moon_separation = get_object_separation(
+            obs, start_date, self.ctx.coords.t, self.ctx.coords.ra, self.ctx.coords.dec
+        )
+
         # ra/dec can be nan due to being out of the interpolation boundaries, mask them out for now
         nan_mask_idx = np.isnan(sun_separation)
         sun_separation[nan_mask_idx] = 100
         moon_separation[nan_mask_idx] = 100
 
         sun_mask_idx = sun_separation <= np.radians(self.ctx.params.min_sun_separation)
-        
+
         obs.date = datetime.strftime(start_date, EPHEM_DATE_FORMAT)
         moon = ephem.Moon(obs)
         moon.compute(obs)
-        moon_mask_idx = (moon_separation < np.radians(self.ctx.params.min_moon_separation)) | ((moon_separation < np.radians(self.ctx.params.min_moon_phase_separation)) * (moon.phase > self.ctx.params.min_moon_high_phase))
-        
-        if np.any(sun_mask_idx==True):
+        moon_mask_idx = (
+            moon_separation < np.radians(self.ctx.params.min_moon_separation)
+        ) | (
+            (moon_separation < np.radians(self.ctx.params.min_moon_phase_separation))
+            * (moon.phase > self.ctx.params.min_moon_high_phase)
+        )
+
+        if np.any(sun_mask_idx == True):
             if self.ctx.params.verbose:
                 print("Sun", start_date, sun_mask_idx.sum())
             self.ctx.tod_vx.mask[:, sun_mask_idx] = True
             self.ctx.tod_vy.mask[:, sun_mask_idx] = True
-        if np.any(moon_mask_idx==True):
+        if np.any(moon_mask_idx == True):
             if self.ctx.params.verbose:
                 print("Moon", start_date, moon_mask_idx.sum())
             self.ctx.tod_vx.mask[:, moon_mask_idx] = True
             self.ctx.tod_vy.mask[:, moon_mask_idx] = True
-        
-        if np.any(nan_mask_idx==True):
+
+        if np.any(nan_mask_idx == True):
             if self.ctx.params.verbose:
                 print("Nan", start_date, nan_mask_idx.sum())
             self.ctx.tod_vx.mask[:, nan_mask_idx] = True
             self.ctx.tod_vy.mask[:, nan_mask_idx] = True
             self.ctx.coords.ra[nan_mask_idx] = -1
             self.ctx.coords.dec[nan_mask_idx] = -1
-            
+
     def __str__(self):
         return "Masking objects"
