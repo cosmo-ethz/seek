@@ -22,9 +22,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import numpy as np
 from scipy.optimize import curve_fit
-import hope
 
-@hope.jit
 def gauss(x, a, x0, sigma, b, c):
     """
     Gaussian model plus a linear background.

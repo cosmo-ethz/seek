@@ -24,7 +24,7 @@ import numpy as np
 from ivy.plugin.base_plugin import BasePlugin
 from seek.mitigation import sum_threshold
 import healpy as hp
-from scipy.ndimage.filters import gaussian_filter as gaussian
+from scipy.ndimage import gaussian_filter as gaussian
 
 
 def mask_galaxy(nside, mask_original, mask_gal, ra, dec):
@@ -77,7 +77,7 @@ class Plugin(BasePlugin):
                                                    sigma_m = 2,
                                                    sigma_n = 25)
 
-            di_kwargs = sum_threshold.get_di_kwrags(self.ctx.params.struct_size_0,
+            di_kwargs = sum_threshold.get_di_kwargs(self.ctx.params.struct_size_0,
                                                     self.ctx.params.struct_size_1)
 
             mask_gal = self.ctx.simulation_mask

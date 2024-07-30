@@ -1,6 +1,6 @@
-=============================
+====================================================
 SEEK: Signal Extraction and Emission Kartographer
-=============================
+====================================================
 
 .. image:: https://travis-ci.org/cosmo-ethz/seek.png?branch=master
         :target: https://travis-ci.org/cosmo-ethz/seek

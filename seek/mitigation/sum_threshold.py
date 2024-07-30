@@ -17,12 +17,13 @@ Created on Jan 21, 2015
 
 author: jakeret
 '''
+
 from __future__ import print_function, division, absolute_import, unicode_literals
+
+import warnings
 
 import numpy as np
 from scipy import ndimage
-
-import hope
 
 from seek.mitigation import sum_threshold_utils
 from seek.utils.tod_utils import get_empty_mask
@@ -41,7 +42,6 @@ SIGMA_N = 15
 STRUCT_SIZE = 3
 
 
-@hope.jit
 def _sumthreshold(data, mask, i, chi, ds0, ds1):
     """
     The operation of summing and thresholding.
@@ -111,7 +111,7 @@ def _run_sumthreshold(data, init_mask, eta, M, chi_i, sm_kwargs, plotting=True):
             st_mask = _sumthreshold(res.T, st_mask.T, m, chi, *res.T.shape).T
 
     if plotting:
-        sum_threshold_utils.plot_steps(data, st_mask, smoothed_data, res, "%s (%s)"%(eta, chi_i))
+        sum_threshold_utils.plot_steps(data, st_mask, smoothed_data, res, f"{eta} ({chi_i})")
         
     return st_mask
 
@@ -125,7 +125,7 @@ def binary_mask_dilation(mask, struct_size_0, struct_size_1):
 
     :return: dilated mask
     """
-    struct = np.ones((struct_size_0, struct_size_1), np.bool)
+    struct = np.ones((struct_size_0, struct_size_1), np.bool_)
     return ndimage.binary_dilation(mask, structure=struct, iterations=2)
 
 
@@ -159,19 +159,26 @@ def get_rfi_mask(tod, mask=None, chi_1=35000, eta_i=[0.5, 0.55, 0.62, 0.75, 1], 
     
     :return mask: the mask covering the identified RFI
     """
+    if mask is None and not suppress_dilation:
+        warnings.warn("mask=None and suppress_dilation=False: Dilation will not be performed on an empty mask.", UserWarning)
+        suppress_dilation = True
+
     data = tod.data
     
     if mask is None:
         mask = get_empty_mask(data.shape)
     
-    if sm_kwargs is None: sm_kwargs = get_sm_kwargs()
+    if sm_kwargs is None:
+        sm_kwargs = get_sm_kwargs()
     
-    if plotting: sum_threshold_utils.plot_moments(data)
+    if plotting:
+        sum_threshold_utils.plot_moments(data, "Time and Frequency Statistics")
 
     if normalize_standing_waves:
         data = normalize(data, mask)
-
-        if plotting: sum_threshold_utils.plot_moments(data)
+        if plotting: 
+            title = "Time and Frequency Statistics After Normalizing Standing Waves"
+            sum_threshold_utils.plot_moments(data, title)
     
     p = 1.5
     m = np.arange(1, MAX_PIXELS)
@@ -184,13 +191,15 @@ def get_rfi_mask(tod, mask=None, chi_1=35000, eta_i=[0.5, 0.55, 0.62, 0.75, 1], 
 
     dilated_mask = st_mask
     if not suppress_dilation:
-        if di_kwargs is None: di_kwargs = get_di_kwrags()
+        if di_kwargs is None:
+            di_kwargs = get_di_kwargs()
 
-        dilated_mask = binary_mask_dilation(dilated_mask - mask, **di_kwargs)
+        dilated_mask = binary_mask_dilation(np.logical_xor(dilated_mask, mask), **di_kwargs)
     
-        if plotting: sum_threshold_utils.plot_dilation(st_mask, mask, dilated_mask)
+        if plotting:
+            sum_threshold_utils.plot_dilation(st_mask, mask, dilated_mask)
         
-    return dilated_mask+mask
+    return dilated_mask + mask
 
 def get_sm_kwargs(kernel_m=KERNEL_M, kernel_n=KERNEL_N, sigma_m=SIGMA_M, sigma_n=SIGMA_N):
     """
@@ -205,7 +214,7 @@ def get_sm_kwargs(kernel_m=KERNEL_M, kernel_n=KERNEL_N, sigma_m=SIGMA_M, sigma_n
     """
     return dict(M=kernel_m, N=kernel_n, sigma_m=sigma_m, sigma_n=sigma_n)
 
-def get_di_kwrags(struct_size_0=STRUCT_SIZE, struct_size_1=STRUCT_SIZE):
+def get_di_kwargs(struct_size_0=STRUCT_SIZE, struct_size_1=STRUCT_SIZE):
     """
     Creates a dict with the dilation keywords.
 
@@ -229,7 +238,7 @@ def get_sumthreshold_kwargs(params):
                               params.sm_sigma_m,
                               params.sm_sigma_n,)
 
-    di_kwargs = get_di_kwrags(params.struct_size_0, params.struct_size_1)
+    di_kwargs = get_di_kwargs(params.struct_size_0, params.struct_size_1)
     
     return sm_kwargs, di_kwargs
 

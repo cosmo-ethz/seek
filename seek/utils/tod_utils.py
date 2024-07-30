@@ -21,11 +21,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import numpy as np
 
-import hope
-
 def get_empty_mask(shape):
-    mask = np.empty(shape, dtype=np.bool)
-    mask[:] = False
+    mask = np.full(shape, False, dtype=np.bool_)
     return mask
     
 def smooth(tod, factor, axis = 1):
@@ -48,7 +45,6 @@ def smooth(tod, factor, axis = 1):
         smooth_tod = tod[:, :nnew*factor].reshape(m, nnew, factor)
         return smooth_tod.mean(axis = 2)
 
-@hope.jit
 def spectral_kurtosis(p, p2, M, offset):
     """
     Computes the spectral kurtosis for the given P and P^2 values
